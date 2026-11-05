@@ -72,7 +72,6 @@
     for (let x = 140; x <= 172; x++) for (let y = 93; y <= 96; y++) px(g, x, y, x % 3 === 0 ? "#6b4328" : "#8a5a3a");
     for (let x = 140; x <= 172; x++) px(g, x, 91, "#6b4328");
     [140, 172].forEach((x) => { px(g, x, 92, "#4a3426"); px(g, x, 97, "#4a3426"); });
-    [[150, 99], [162, 99]].forEach(([x, y]) => { px(g, x, y, "#e87a2b"); px(g, x + 1, y, "#e87a2b"); px(g, x + 2, y, "#ffffff"); });
     px(g, 145, 100, "#9fd18f"); px(g, 146, 100, "#9fd18f"); px(g, 146, 99, "#f4c6d7"); px(g, 168, 101, "#9fd18f"); px(g, 169, 101, "#9fd18f");
   })();
 
@@ -84,6 +83,7 @@
       if (Math.abs(x - caminhoX(y - 6)) < caminhoL(y - 6) / 2 + 13) continue;
       if (((x - lago.x) / (lago.rx + 14)) ** 2 + ((y - lago.y) / (lago.ry + 10)) ** 2 < 1) continue;
       if (x < 36 && y > 102) continue;
+      if (y > 104 && Math.abs(x - lago.x) < 38) continue; // deixa a água do lago à vista
       if (naCasa(x, y)) continue;
       lugares.push({ x, y });
     }
@@ -412,7 +412,7 @@
 
   const slide = cv.closest(".slide"), dica = el("jardim-dica"), modal = el("jardim-modal"), btnCasa = el("j-casa");
   let cena = "jardim", fade = null, hover = null;
-  const ir = (para) => { if (fade) return; fade = { t0: performance.now(), fase: "sai", para }; hover = null; dica.hidden = true; fx.length = 0; };
+  const ir = (para) => { if (fade) return; fade = { t0: performance.now(), fase: "sai", para }; hover = null; dica.hidden = true; fx.length = 0; comida.length = 0; ondas.length = 0; };
   const abrirCartaz = () => { modal.hidden = false; el("jardim-modal-fechar").focus(); };
 
   // ---------- Carinho no gato e regador nas plantas ----------
@@ -491,9 +491,67 @@
     return depois === "florida" ? "Seu bonsai floresceu." : "Seu bonsai está se recuperando.";
   }
 
+  // ---------- Peixes do lago e ração (brincadeira, não conta na pontuação) ----------
+  const LAGO = { x1: 138, x2: 174, y1: 98, y2: 100 };
+  const peixes = [
+    { x: 148, y: 99, dir: 1, vel: 5, fase: 0 },
+    { x: 164, y: 100, dir: -1, vel: 4, fase: 2 },
+    { x: 156, y: 98, dir: 1, vel: 3, fase: 4 },
+  ];
+  const comida = [], ondas = [];
+  let ultimoPeixe = 0;
+  const darComida = (a) => {
+    const t0 = performance.now();
+    for (let i = 0; i < 6; i++) {
+      comida.push({ x: 141 + Math.floor(Math.random() * 30), y: 82, yAlvo: 98 + Math.floor(Math.random() * 3), t0: t0 + i * 140, pouso: 0 });
+    }
+    a.msg = "Plim, plim. Os peixinhos adoraram a comidinha."; a.msgAte = t0 + 2600;
+  };
+  function desenharPeixes(t) {
+    const dt = ultimoPeixe ? Math.min(0.05, (t - ultimoPeixe) / 1000) : 0;
+    ultimoPeixe = t;
+    peixes.forEach((f) => {
+      const alvo = comida.find((c) => c.pouso && !c.comida && Math.abs(c.x - f.x) < 24) || comida.filter((c) => c.pouso && !c.comida).sort((a, b) => Math.abs(a.x - f.x) - Math.abs(b.x - f.x))[0];
+      if (alvo) {
+        f.dir = alvo.x >= f.x ? 1 : -1;
+        f.x += f.dir * 16 * dt;
+        f.y += Math.sign(alvo.y - f.y) * 6 * dt;
+        if (Math.abs(alvo.x - f.x) < 2 && Math.abs(alvo.y - f.y) < 2.5) { alvo.comida = true; ondas.push({ x: alvo.x, y: alvo.y, t0: t }); }
+      } else {
+        f.x += f.dir * f.vel * dt;
+        f.y = Math.min(LAGO.y2, Math.max(LAGO.y1, f.y + Math.sin(t / 900 + f.fase) * 0.3 * dt * 10));
+        if (f.x > LAGO.x2) f.dir = -1; else if (f.x < LAGO.x1) f.dir = 1;
+      }
+      f.x = Math.min(LAGO.x2, Math.max(LAGO.x1, f.x));
+      const x = Math.round(f.x), y = Math.round(f.y), d = f.dir, rabo = Math.floor(t / 220 + f.fase) % 2;
+      px(cx, x - d * 2, y, "#e87a2b"); px(cx, x - d, y, "#e87a2b"); px(cx, x, y, "#ffffff");
+      px(cx, x - d * 3, y + rabo, "#c85f1a");
+    });
+  }
+  function desenharComida(t) {
+    for (let i = comida.length - 1; i >= 0; i--) {
+      const c = comida[i], d = t - c.t0;
+      if (c.comida || d > 6000) { comida.splice(i, 1); continue; }
+      if (d < 0) continue;
+      const y = Math.min(c.yAlvo, c.y + d * 0.03);
+      if (y >= c.yAlvo && !c.pouso) { c.pouso = 1; ondas.push({ x: c.x, y: c.yAlvo, t0: t }); }
+      px(cx, c.x, Math.round(y), "#d9a35c"); if (!c.pouso) px(cx, c.x, Math.round(y) - 1, "#f0c98a");
+    }
+    for (let i = ondas.length - 1; i >= 0; i--) {
+      const o = ondas[i], k = (t - o.t0) / 700;
+      if (k >= 1) { ondas.splice(i, 1); continue; }
+      const r = 1 + Math.floor(k * 4);
+      cx.globalAlpha = 0.7 * (1 - k);
+      for (let a = 0; a < 12; a++) px(cx, Math.round(o.x + Math.cos(a / 12 * 6.283) * r), Math.round(o.y + Math.sin(a / 12 * 6.283) * r / 3), "#e9fbff");
+      cx.globalAlpha = 1;
+    }
+  }
+
   const alvosJardim = [{ x: 78, y: 50, w: 52, h: 38, titulo: "Casinha de chá", acao: () => ir("sala"),
     texto: "Um cantinho de pausa no meio do jardim. Clique para entrar.",
-    desenhar: (t, d) => { if (d) contorno(casaGlow, 78, 50); cx.drawImage(casaSpr, 78, 50); } }];
+    desenhar: (t, d) => { if (d) contorno(casaGlow, 78, 50); cx.drawImage(casaSpr, 78, 50); } },
+    { x: 132, y: 90, w: 49, h: 13, titulo: "Lago dos peixes", reacao: darComida,
+      texto: "Água calma e peixinhos laranja nadando devagar. Clique para jogar um pouco de ração." }];
 
   const alvosSala = [
     { x: 53, y: 40, w: 14, h: 46, titulo: "Tapete de yoga",
@@ -550,12 +608,14 @@
 
   function desenharJardim(t) {
     cx.drawImage(fundo, 0, 0);
+    desenharPeixes(t);
     const itens = arvores.map((a) => ({ y: a.y, f: () => {
       const linhas = a.id === anim.id ? Math.min(S, Math.max(1, 1 + Math.floor((t - anim.t0) / 35))) : S;
       cx.drawImage(a.spr, 0, S - linhas, S, linhas, a.x - S / 2, a.y - linhas, S, linhas);
     } }));
     itens.push({ y: 88, f: () => alvosJardim[0].desenhar(t, hover === alvosJardim[0]) });
     itens.sort((a, b) => a.y - b.y).forEach((i) => i.f());
+    desenharComida(t);
     if (anim.id && t - anim.t0 >= 35 * S + 60) anim.id = 0;
   }
   function desenharSala(t) {
