@@ -1,9 +1,9 @@
-# Shizen Tech · Termômetro do Momento
+# Shizen Tech · Jardim
 
 Flask + MySQL. O Python entrega as páginas HTML e grava as notas no banco.
 
 ## Abrir e rodar no VS Code
-1. Descompacte o zip. No VS Code: **Arquivo > Abrir Pasta** e escolha `termometro-do-momento`.
+1. Descompacte o zip. No VS Code: **Arquivo > Abrir Pasta** e escolha `ShizenTech-Jardim`.
 2. Aceite instalar a extensão **Python** quando o VS Code sugerir.
 3. Abra o terminal (**Ctrl + '**) e crie o ambiente virtual:
    - `python -m venv .venv`
