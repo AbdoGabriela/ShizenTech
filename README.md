@@ -1,4 +1,4 @@
-# Shizen Tech · Termômetro do Momento
+# Shizen Tech · Jardim
 
 Flask + MySQL. O Python entrega as páginas HTML e grava as notas no banco.
 
