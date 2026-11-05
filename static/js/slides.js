@@ -50,7 +50,6 @@ document.addEventListener("DOMContentLoaded", () => {
   form.addEventListener("change", (e) => {
     if (e.target.type !== "radio") return;
     marcarBotoes();
-    if (nav.atual() < slides.length - 1) setTimeout(() => nav.ir(nav.atual() + 1), 450);
   });
 
   form.addEventListener("submit", (e) => {
