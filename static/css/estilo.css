@@ -1,0 +1,166 @@
+:root { --noite:#07110d; --menta:#8fd6b4; --ambar:#e0a24a; --ameixa:#c0728a; --nevoa:#e8efe9; }
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+body { margin:0; min-height:100dvh; display:flex; flex-direction:column; background:linear-gradient(rgba(7,17,13,.5), rgba(7,17,13,.5)), url(../img/fundo-nebulosa.png) center/cover fixed, var(--noite);
+  color:var(--nevoa);
+  font:400 1.05rem/1.6 "Nunito Sans", system-ui, sans-serif; }
+h1, h2 { font-family:"Cormorant Garamond", Georgia, serif; font-weight:500; line-height:1.15; margin:0; }
+h1 { font-size:clamp(2rem, 6vw, 3rem); }
+h2 { font-size:clamp(1.35rem, 4vw, 1.85rem); }
+h1:focus, h2:focus { outline:none; }
+p { margin:0; }
+a { color:var(--menta); }
+
+nav { display:flex; justify-content:space-between; align-items:center; gap:1rem; padding:.6rem 1.2rem;
+  border-bottom:1px solid rgba(143,214,180,.15); }
+.marca { display:flex; align-items:center; gap:.6rem; text-decoration:none; color:var(--nevoa);
+  font:500 1.3rem "Cormorant Garamond", serif; }
+.marca img { height:40px; width:auto; }
+
+main { flex:1; display:flex; align-items:center; justify-content:center; padding:1rem; }
+.palco { width:min(42rem, 100%); }
+
+.progresso { height:4px; background:rgba(232,239,233,.15); border-radius:4px; margin-bottom:.8rem; overflow:hidden; }
+.progresso i { display:block; height:100%; width:0; background:var(--menta); transition:width .35s; }
+
+.painel { display:flex; flex-direction:column; min-height:min(26rem, calc(100dvh - 7rem));
+  max-height:calc(100dvh - 7rem); overflow:auto; border:1px solid rgba(143,214,180,.18); border-radius:18px;
+  padding:clamp(1rem, 3vw, 1.6rem);
+  background:linear-gradient(rgba(4,10,7,.6), rgba(4,10,7,.6)), url(../img/fundo-logo.png) center/cover; }
+
+.slide, .centro { display:flex; flex-direction:column; align-items:center; text-align:center; gap:.7rem; }
+.painel > .slide, .painel > .centro { margin-block:auto; }
+.js .slide { display:none; }
+.js .slide.ativo { display:flex; animation:entra .35s ease; }
+html:not(.js) .slide + .slide { margin-top:2rem; padding-top:2rem; border-top:1px solid rgba(143,214,180,.18); }
+@keyframes entra { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:none; } }
+
+.logo { height:min(14vh, 110px); width:auto; max-width:100%; }
+.capa { height:min(22vh, 170px); width:auto; max-width:100%; border-radius:12px; }
+.banner { height:min(20vh, 160px); width:auto; max-width:100%; border-radius:12px; }
+.eyebrow { text-transform:uppercase; letter-spacing:.25em; font-size:.8rem; color:var(--menta); }
+.lema { display:block; margin-top:.2rem; font-size:.72rem; letter-spacing:.3em; opacity:.8; }
+.contador { font-size:.85rem; opacity:.7; }
+.nota { font:500 3.4rem/1 "Cormorant Garamond", serif; color:var(--menta); }
+.nota small { font:400 1rem "Nunito Sans", sans-serif; color:var(--nevoa); }
+.aviso { font-size:.75rem; opacity:.7; max-width:38rem; line-height:1.45; }
+.grafico { position:relative; width:100%; height:min(42vh, 320px); }
+
+.pedras { position:relative; width:100%; max-width:36rem; display:grid; grid-template-columns:repeat(auto-fit, minmax(2.6rem, 1fr)); gap:.35rem; margin-top:.4rem; }
+.pedras input { position:absolute; opacity:0; pointer-events:none; }
+.pedras label { aspect-ratio:1; display:grid; place-items:center; border-radius:50%; font-size:.95rem; cursor:pointer;
+  background:rgba(232,239,233,.08); border:1px solid rgba(232,239,233,.28); transition:background .15s, transform .15s; }
+.pedras label:hover { background:rgba(143,214,180,.28); }
+.pedras input:checked + label { background:var(--menta); color:var(--noite); font-weight:700; transform:scale(1.1); }
+.pedras input:focus-visible + label { outline:2px solid var(--ambar); outline-offset:3px; }
+
+.botoes { display:flex; flex-wrap:wrap; justify-content:center; gap:.8rem; margin-top:.4rem; }
+.botao { display:inline-block; background:var(--menta); color:var(--noite); border:1px solid var(--menta); border-radius:999px;
+  padding:.7rem 1.7rem; font:700 1rem "Nunito Sans", sans-serif; cursor:pointer; text-decoration:none; }
+.botao:hover { background:#a6e3c6; }
+.botao.sec { background:transparent; color:var(--nevoa); border-color:rgba(232,239,233,.35); }
+.botao.sec:hover { background:rgba(232,239,233,.1); }
+.botao:disabled { opacity:.4; cursor:not-allowed; }
+.botao:focus-visible { outline:2px solid var(--ambar); outline-offset:3px; }
+.erro { background:rgba(192,114,138,.25); border:1px solid var(--ameixa); border-radius:12px; padding:.7rem 1rem; }
+
+@media (max-width:480px) { .pedras label { font-size:.85rem; } .nota { font-size:2.8rem; } }
+.na-capa { width:min(64rem, 100%); }
+.na-capa .painel, .na-capa .progresso { display:none; }
+.capa { position:relative; isolation:isolate; overflow:hidden; justify-content:flex-end; width:100%;
+  height:calc(100dvh - 7rem); min-height:20rem; max-height:46rem; padding:clamp(1.2rem, 4vw, 2.4rem);
+  border:1px solid rgba(143,214,180,.2); border-radius:20px; background:#04100a; }
+.capa-fundo { position:absolute; inset:0; z-index:-2; background-size:cover; background-position:center 25%; animation:zoom 24s ease-out both; }
+.capa::after { content:""; position:absolute; inset:0; z-index:-1;
+  background:linear-gradient(to top, rgba(4,10,7,.97) 0%, rgba(4,10,7,.94) 26%, rgba(4,10,7,.7) 40%, rgba(4,10,7,.12) 56%, rgba(4,10,7,.2) 100%),
+    radial-gradient(ellipse at center, transparent 55%, rgba(4,10,7,.5) 100%); }
+.capa-texto { display:flex; flex-direction:column; align-items:center; gap:.5rem; }
+.capa-texto > * { animation:sobe .9s ease both; }
+.capa-texto > :nth-child(2) { animation-delay:.15s; }
+.capa-texto > :nth-child(3) { animation-delay:.3s; }
+.capa-texto > :nth-child(4) { animation-delay:.45s; }
+.capa-texto > :nth-child(5) { animation-delay:.65s; }
+.capa h1 { font-size:clamp(2rem, 6.5vw, 4rem); letter-spacing:.14em; text-transform:uppercase; font-weight:700; color:#f6fff9;
+  text-shadow:0 0 10px rgba(143,214,180,.9), 0 0 28px rgba(143,214,180,.6), 0 2px 5px rgba(0,0,0,.95); }
+.capa .fio { width:3rem; height:1px; background:var(--menta); opacity:.7; }
+.capa .subtitulo { font:italic 600 clamp(1.3rem, 3.2vw, 1.8rem)/1.2 "Cormorant Garamond", Georgia, serif; color:#b7ecd2;
+  text-shadow:0 2px 6px rgba(0,0,0,.95), 0 0 16px rgba(4,10,7,.9); }
+.capa .lema { text-transform:uppercase; margin:0; font-size:.8rem; font-weight:700; opacity:1; color:#f6fff9;
+  text-shadow:0 1px 4px rgba(0,0,0,.95), 0 0 12px rgba(4,10,7,.9); }
+.capa .botao { margin-top:.9rem; padding:.85rem 2.4rem; letter-spacing:.08em; }
+@keyframes zoom { from { transform:scale(1); } to { transform:scale(1.07); } }
+@keyframes sobe { from { opacity:0; transform:translateY(14px); } to { opacity:1; transform:none; } }
+.link { background:none; border:0; padding:0; color:var(--nevoa); opacity:.65; text-decoration:underline; font:inherit; font-size:.85rem; cursor:pointer; }
+.link:hover { opacity:1; }
+.zerar { display:flex; flex-direction:column; align-items:center; gap:.6rem; width:100%; max-width:22rem; }
+.zerar label { font-size:.85rem; opacity:.8; }
+.zerar input { width:100%; padding:.6rem 1rem; border-radius:999px; border:1px solid rgba(232,239,233,.35); background:rgba(232,239,233,.08); color:var(--nevoa); font:inherit; text-align:center; }
+.zerar input:focus-visible { outline:2px solid var(--ambar); outline-offset:2px; }
+.botao.perigo { background:var(--ameixa); border-color:var(--ameixa); }
+.botao.perigo:hover { background:#d189a0; }
+@media (max-height:700px) { .capa h1 { font-size:clamp(1.8rem, 5vw, 2.8rem); } body { font-size:.95rem; } h1 { font-size:2rem; } .nota { font-size:2.6rem; } .banner { height:min(14vh, 100px); } }
+@media (max-height:600px) { .logo, .banner { display:none; } }
+@media (prefers-reduced-motion:reduce) { * { transition:none !important; animation:none !important; } }
+.player { position:fixed; right:.7rem; bottom:.7rem; z-index:20; display:flex; align-items:center; gap:.3rem;
+  padding:.25rem .55rem; border-radius:999px; border:1px solid rgba(232,239,233,.3); background:rgba(4,10,7,.65); color:var(--nevoa); backdrop-filter:blur(4px); font-size:.8rem; }
+.player button { width:1.6rem; height:1.6rem; border-radius:50%; border:1px solid rgba(232,239,233,.35); background:rgba(232,239,233,.08); color:var(--nevoa); font-size:.75rem; line-height:1; padding:0; cursor:pointer; }
+.player button:hover { background:rgba(232,239,233,.2); }
+.player button:focus-visible, .player input:focus-visible { outline:2px solid var(--ambar); outline-offset:2px; }
+.player-vol { opacity:.7; margin-left:.2rem; }
+.player input[type=range] { width:4.2rem; height:1rem; accent-color:var(--menta); cursor:pointer; }
+
+/* Jardim em pixel art (tela "Jardim de todos") */
+.na-jardim { width:min(120rem, 100%); }
+.jardim-cena { position:relative; justify-self:center; width:min(100%, calc((100dvh - 9rem) * 1.6)); }
+.jardim canvas { display:block; width:100%; aspect-ratio:192/120; height:auto;
+  image-rendering:pixelated; border:2px solid rgba(143,214,180,.35); border-radius:6px; }
+.jardim-dica { position:absolute; z-index:5; max-width:16rem; padding:.5rem .75rem; pointer-events:none; text-align:left; background:rgba(7,17,13,.95);
+  border:2px solid var(--menta); border-radius:4px; box-shadow:3px 3px 0 rgba(0,0,0,.55); font-size:.85rem; line-height:1.4; }
+.jardim-dica b { display:block; font:700 1.1rem/1.2 "Cormorant Garamond", Georgia, serif; color:var(--menta); margin-bottom:.15rem; }
+.jardim.na-sala .jardim-legenda, .jardim.na-sala #j-recomecar, .jardim.na-sala #j-aleatorias, .jardim.na-sala #j-puxar { display:none; }
+.jardim-modal { position:fixed; inset:0; z-index:30; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:1rem; padding:1rem; background:rgba(4,10,7,.92); }
+.jardim-modal img { max-width:min(34rem, 100%); max-height:calc(100dvh - 7rem); border-radius:12px; }
+.jardim-legenda { display:flex; flex-wrap:wrap; justify-content:center; gap:.2rem 1.4rem; font-size:.9rem; }
+.jardim-legenda span::before { content:""; display:inline-block; width:.7rem; height:.7rem; margin-right:.45rem; background:var(--c); }
+.jardim-info { font-size:.85rem; opacity:.8; min-height:1.3em; }
+.jardim .botoes { gap:.5rem; }
+.jardim .botao { padding:.5rem 1rem; font-size:.9rem; }
+
+
+/* Jardim: barra lateral à esquerda e cena grande à direita */
+.na-jardim .painel { padding:.7rem; min-height:0; }
+.js .slide.jardim.ativo { display:grid; grid-template-columns:minmax(0,1fr) auto minmax(0,1fr); gap:1rem; align-items:center; width:100%; text-align:left; }
+.na-jardim .jardim-cena { grid-column:2; width:min(calc(100vw - 30.5rem), calc((100dvh - 9rem) * 1.6)); }
+.jardim-lateral { grid-column:1; width:12.5rem; justify-self:start; display:flex; flex-direction:column; gap:.8rem; align-items:stretch; padding:.8rem; border:1px solid rgba(143,214,180,.2); border-radius:14px; background:rgba(4,10,7,.55); }
+.jardim-lateral .botoes { flex-direction:column; align-items:stretch; gap:.4rem; margin:0; }
+.jardim-lateral .botoes-nav { flex-direction:row; }
+.jardim-lateral .botoes-nav .botao { flex:1; padding-inline:.4rem; }
+.jardim-lateral .botao { width:100%; text-align:center; padding:.45rem .6rem; font-size:.88rem; }
+.jardim-lateral .jardim-legenda { flex-direction:column; gap:.15rem; font-size:.85rem; justify-content:flex-start; }
+.jardim-lateral .jardim-info { font-size:.82rem; line-height:1.4; min-height:0; }
+.jardim-lateral .player { position:static; justify-content:center; width:100%; padding:.3rem .4rem; backdrop-filter:none; }
+.jardim-lateral .player input[type=range] { width:100%; min-width:0; }
+@media (max-height:700px) { .jardim-lateral { gap:.5rem; padding:.6rem; } .jardim-lateral .jardim-info { display:none; } }
+@media (max-width:900px) {
+  .js .slide.jardim.ativo { grid-template-columns:minmax(0, 1fr); }
+  .jardim-lateral { grid-column:1; width:auto; justify-self:stretch; }
+  .na-jardim .jardim-cena { grid-column:1; width:min(100%, calc((100dvh - 9rem) * 1.6)); }
+  .jardim-lateral { order:2; }
+  .jardim-lateral .botoes { flex-direction:row; flex-wrap:wrap; }
+  .jardim-lateral .botao { width:auto; flex:1 1 auto; }
+}
+
+/* Página final: bonsai florido com pétalas caindo */
+.slide.final { position:relative; width:100%; align-self:stretch; justify-content:center; gap:1rem; }
+.final-petalas { position:absolute; inset:0; width:100%; height:100%; pointer-events:none; }
+.final-bonsai { position:relative; height:min(44dvh, 26rem); width:auto; aspect-ratio:1; image-rendering:pixelated; filter:drop-shadow(0 0 22px rgba(242,139,176,.25)); }
+.final-frase { position:relative; max-width:44rem; font:italic 500 clamp(1.25rem, 2.6vw, 1.75rem)/1.4 "Cormorant Garamond", Georgia, serif; color:#f6fff9;
+  text-shadow:0 2px 8px rgba(0,0,0,.9), 0 0 18px rgba(4,10,7,.9); }
+.slide.final .botoes { position:relative; }
+.links { list-style:none; margin:0; padding:0; display:flex; flex-direction:column; align-items:center; gap:.6rem; width:100%; max-width:26rem; }
+.links a { display:block; padding:.6rem 1.4rem; border:1px solid rgba(143,214,180,.4); border-radius:999px; text-decoration:none; color:var(--nevoa); background:rgba(232,239,233,.06); }
+.links a:hover { background:rgba(143,214,180,.2); }
+.links .vazio { opacity:.7; font-size:.95rem; }
+@media (max-height:600px) { .final-bonsai { height:min(40dvh, 16rem); } }
+.na-final { width:min(64rem, 100%); }
+.painel > .slide.final { margin-block:0; flex:1; }

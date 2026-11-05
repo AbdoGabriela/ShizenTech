@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block conteudo %}
+<form class="palco" method="post" action="{{ url_for('enviar') }}" data-slides>
+  {% if not erro %}
+  <section class="slide capa">
+    <div class="capa-fundo" role="img" aria-label="Logo da Shizen Tech sobre um jardim zen com ponte e lago"
+         style="background-image:url('{{ url_for('static', filename='img/capa.png') }}')"></div>
+    <div class="capa-texto">
+      <h1>Shizen Tech</h1>
+      <span class="fio" aria-hidden="true"></span>
+      <p class="subtitulo">Termômetro do Momento</p>
+      <p class="lema">Meditation • Zen • Wellness</p>
+      <button type="button" class="botao" data-next>Iniciar Jornada</button>
+    </div>
+  </section>
+  {% endif %}
+  <div class="progresso" aria-hidden="true"><i></i></div>
+  <div class="painel">
+    <section class="slide">
+      {% if erro %}<p class="erro" role="alert">{{ erro }}</p>{% endif %}
+      <img class="logo" src="{{ url_for('static', filename='img/logo.png') }}" alt="Logo da Shizen Tech: bonsai e flor de lótus">
+      <p class="eyebrow">Shizen Tech<span class="lema">Meditation • Zen • Wellness</span></p>
+      <h1>Termômetro do Momento</h1>
+      <p>Estamos acostumados a buscar dados e respostas precisas. Hoje o convite é outro: olhar para como você está neste momento. Não é um teste e não existe resposta certa.</p>
+      <p>Dê uma nota de 0 a 10 para cada pergunta, de <strong>0</strong> (nada bem) a <strong>10</strong> (muito bem). Suas respostas são anônimas.</p>
+      <div class="botoes"><button type="button" class="botao" data-next>Começar</button></div>
+      {% include "_aviso.html" %}
+    </section>
+    {% for texto in perguntas %}
+    {% set q = loop.index %}
+    <section class="slide" data-pergunta>
+      <p class="contador">Pergunta {{ q }} de {{ perguntas|length }}</p>
+      <h2 id="t{{ q }}">{{ texto }}</h2>
+      <div class="pedras" role="radiogroup" aria-labelledby="t{{ q }}">
+        {% for n in range(11) %}
+        <input type="radio" id="q{{ q }}-{{ n }}" name="q{{ q }}" value="{{ n }}">
+        <label for="q{{ q }}-{{ n }}">{{ n }}</label>
+        {% endfor %}
+      </div>
+      <div class="botoes">
+        <button type="button" class="botao sec" data-prev>Voltar</button>
+        {% if loop.last %}
+        <button type="submit" class="botao">Ver meu termômetro</button>
+        {% else %}
+        <button type="button" class="botao" data-next>Próxima</button>
+        {% endif %}
+      </div>
+    </section>
+    {% endfor %}
+  </div>
+</form>
+{% endblock %}

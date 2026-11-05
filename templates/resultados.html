@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+{% block conteudo %}
+<div class="palco" id="vazio" hidden>
+  <div class="painel">
+    <section class="centro">
+      <h1>O jardim de todos</h1>
+      <p>Ainda não há respostas. Comece pelo seu termômetro.</p>
+      <div class="botoes"><a class="botao" href="{{ url_for('index') }}">Responder agora</a></div>
+    </section>
+  </div>
+</div>
+<div class="palco" id="conteudo" hidden>
+  <div class="progresso" aria-hidden="true"><i></i></div>
+  <div class="painel">
+    <section class="slide">
+      <p class="eyebrow">O jardim de todos</p>
+      <p class="nota"><span id="media"></span> <small>de 60 pontos em média</small></p>
+      <p><b id="total"></b> respostas</p>
+      <h2 id="titulo"></h2>
+      <p id="mensagem"></p>
+      <div class="botoes"><button type="button" class="botao" data-next>Ver o jardim</button></div>
+      <button type="button" class="link" id="abrir-zerar">Zerar todas as respostas</button>
+      <form class="zerar" id="form-zerar" hidden>
+        <p>Isso apaga todas as respostas e não pode ser desfeito.</p>
+        <label for="senha-zerar">Senha de administração</label>
+        <input id="senha-zerar" type="password" autocomplete="current-password" required>
+        <p class="erro" id="erro-zerar" role="alert" hidden></p>
+        <div class="botoes">
+          <button type="button" class="botao sec" id="cancelar-zerar">Cancelar</button>
+          <button type="submit" class="botao perigo">Apagar tudo</button>
+        </div>
+      </form>
+    </section>
+    <section class="slide jardim">
+      <div class="jardim-lateral" id="jardim-lateral">
+        <div class="botoes">
+          <button type="button" class="botao" id="j-casa">Entrar na casinha</button>
+          <button type="button" class="botao sec" id="j-recomecar">Recomeçar o Jardim</button>
+          <button type="button" class="botao sec" id="j-aleatorias">Plantar 10 aleatórias</button>
+          <button type="button" class="botao sec" id="j-puxar">Puxar 10 últimas respostas</button>
+        </div>
+        <div class="jardim-legenda">
+          <span style="--c:#e0a24a">Outono · abaixo de 30 <b id="j-outono">0</b></span>
+          <span style="--c:#3f9a63">Verde · 30 a 47 <b id="j-verde">0</b></span>
+          <span style="--c:#f28bb0">Florida · 48 a 60 <b id="j-florida">0</b></span>
+        </div>
+        <p class="jardim-info" id="jardim-info">Cada bonsai é uma resposta. O outono é uma estação, não uma nota ruim.</p>
+        <div class="botoes botoes-nav">
+          <button type="button" class="botao sec" data-prev>Voltar</button>
+          <button type="button" class="botao sec" data-next>Próximo</button>
+        </div>
+      </div>
+      <div class="jardim-cena" id="jardim-cena" data-cartaz="{{ url_for('static', filename='img/cartaz-unifecaf.jpg') }}">
+        <canvas id="jardim-canvas" width="192" height="120" role="img" aria-label="Jardim zen em pixel art, com um bonsai para cada resposta e uma casinha de madeira"></canvas>
+        <div class="jardim-dica" id="jardim-dica" role="tooltip" hidden><b></b><span></span></div>
+      </div>
+    </section>
+    <section class="slide">
+      <h2>Quantas pessoas em cada faixa</h2>
+      <div class="grafico"><canvas id="grafico-faixas"></canvas></div>
+      <div class="botoes">
+        <button type="button" class="botao sec" data-prev>Voltar</button>
+        <button type="button" class="botao" data-next>Próximo</button>
+      </div>
+    </section>
+    <section class="slide">
+      <h2>Média por pergunta (0 a 10)</h2>
+      <div class="grafico"><canvas id="grafico-perguntas"></canvas></div>
+      <div class="botoes">
+        <button type="button" class="botao sec" data-prev>Voltar</button>
+        <button type="button" class="botao" data-next>Próximo</button>
+      </div>
+    </section>
+    <section class="slide final">
+      <canvas class="final-petalas" id="final-petalas" aria-hidden="true"></canvas>
+      <canvas class="final-bonsai" id="final-bonsai" width="30" height="30" role="img" aria-label="Bonsai florido em pixel art, com pétalas caindo"></canvas>
+      <p class="final-frase">O mundo evolui, acelera, e pede pressa. Não esqueça nunca de cuidar do seu jardim, não se esqueça de cuidar de você.</p>
+      <div class="botoes">
+        <button type="button" class="botao sec" data-prev>Voltar</button>
+        <button type="button" class="botao" data-next>Continuar</button>
+      </div>
+    </section>
+    <section class="slide">
+      <h2>Links importantes</h2>
+      <ul class="links">
+        <!-- Para adicionar um link, copie a linha de exemplo abaixo, tire os sinais de comentário e troque o endereço e o nome.
+        <li><a href="https://endereco-do-link.com" target="_blank" rel="noopener">Nome do link</a></li>
+        -->
+        <li class="vazio">Em breve, os links importantes ficam aqui.</li>
+      </ul>
+      <div class="botoes">
+        <button type="button" class="botao sec" data-prev>Voltar</button>
+        <a class="botao" href="{{ url_for('index') }}">Recomeçar Jornada</a>
+      </div>
+    </section>
+  </div>
+</div>
+<div class="jardim-modal" id="jardim-modal" role="dialog" aria-modal="true" aria-label="Cartaz da UniFECAF Clínica de Saúde" hidden>
+  <img src="{{ url_for('static', filename='img/cartaz-unifecaf.jpg') }}" alt="Cartaz da UniFECAF Clínica de Saúde: cuidar de pessoas, transformar vidas">
+  <button type="button" class="botao" id="jardim-modal-fechar">Fechar</button>
+</div>
+{% endblock %}
+{% block scripts %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="{{ url_for('static', filename='js/resultados.js') }}"></script>
+<script src="{{ url_for('static', filename='js/jardim.js') }}"></script>
+<script src="{{ url_for('static', filename='js/final.js') }}"></script>
+{% endblock %}
