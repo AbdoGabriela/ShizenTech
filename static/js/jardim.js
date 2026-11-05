@@ -433,6 +433,13 @@
     const gr = criar(32, 32, (g) => { g.imageSmoothingEnabled = false; g.drawImage(pq, 0, 0, 32, 32); });
     return `url(${gr.toDataURL()}) 4 8, pointer`;
   })();
+  const brilhar = (a, n) => {
+    const t0 = performance.now();
+    for (let i = 0; i < n; i++) {
+      fx.push({ tipo: "brilho", x: a.x + 2 + Math.random() * Math.max(1, a.w - 4), y: a.y + 2 + Math.random() * Math.max(1, a.h - 4),
+        t0: t0 + Math.random() * 260, vida: 650 });
+    }
+  };
   const fazerCarinho = (a) => {
     const t0 = performance.now();
     gatoT = t0;
@@ -453,7 +460,13 @@
       if (d > f.vida) { fx.splice(i, 1); continue; }
       if (d < 0) continue;
       const k = d / f.vida;
-      if (f.tipo === "coracao") {
+      if (f.tipo === "brilho") {
+        const r = k < 0.5 ? 1 : 0, a = k < 0.15 ? k / 0.15 : 1 - (k - 0.15) / 0.85, x = Math.round(f.x), y = Math.round(f.y);
+        cx.globalAlpha = Math.max(0, a);
+        px(cx, x, y, "#fffbe0");
+        if (r) { px(cx, x - 1, y, "#ffe9a8"); px(cx, x + 1, y, "#ffe9a8"); px(cx, x, y - 1, "#ffe9a8"); px(cx, x, y + 1, "#ffe9a8"); }
+        cx.globalAlpha = 1;
+      } else if (f.tipo === "coracao") {
         cx.globalAlpha = Math.min(1, (1 - k) * 2);
         cx.drawImage(coracaoSpr, Math.round(f.x + Math.sin(k * 7) * 2), Math.round(f.y - k * 16));
         cx.globalAlpha = 1;
@@ -717,8 +730,11 @@
     if (a.acao) a.acao();
     else {
       if (a.reacao) a.reacao(a);
+      if (cena === "sala") brilhar(a, 5);
       if (cena === "sala" && !a.proprio) {
+        const antes = meu && meu.p;
         const m = cuidar(), agora = performance.now();
+        if (meu && meu.p !== antes) brilhar({ x: 3, y: 86, w: 30, h: 30 }, 4);
         if (m) { a.msg = (a.msgAte && agora < a.msgAte ? a.msg + " " : "") + m; a.msgAte = agora + 2600; }
       }
       mostrarDica(a, e.clientX, e.clientY);
