@@ -515,14 +515,15 @@
       if (alvo) {
         f.dir = alvo.x >= f.x ? 1 : -1;
         f.x += f.dir * 16 * dt;
-        f.y += Math.sign(alvo.y - f.y) * 6 * dt;
-        if (Math.abs(alvo.x - f.x) < 2 && Math.abs(alvo.y - f.y) < 2.5) { alvo.comida = true; ondas.push({ x: alvo.x, y: alvo.y, t0: t }); }
+        f.y += Math.sign(alvo.yAlvo - f.y) * 6 * dt;
+        if (Math.abs(alvo.x - f.x) < 2 && Math.abs(alvo.yAlvo - f.y) < 2.5) { alvo.comida = true; ondas.push({ x: alvo.x, y: alvo.yAlvo, t0: t }); }
       } else {
         f.x += f.dir * f.vel * dt;
         f.y = Math.min(LAGO.y2, Math.max(LAGO.y1, f.y + Math.sin(t / 900 + f.fase) * 0.3 * dt * 10));
         if (f.x > LAGO.x2) f.dir = -1; else if (f.x < LAGO.x1) f.dir = 1;
       }
       f.x = Math.min(LAGO.x2, Math.max(LAGO.x1, f.x));
+      f.y = Math.min(LAGO.y2, Math.max(LAGO.y1, f.y)); // nunca sai da água
       const x = Math.round(f.x), y = Math.round(f.y), d = f.dir, rabo = Math.floor(t / 220 + f.fase) % 2;
       px(cx, x - d * 2, y, "#e87a2b"); px(cx, x - d, y, "#e87a2b"); px(cx, x, y, "#ffffff");
       px(cx, x - d * 3, y + rabo, "#c85f1a");
