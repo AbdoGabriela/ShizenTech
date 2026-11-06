@@ -9,6 +9,7 @@ try:
         host=os.getenv("DB_HOST", "localhost"),
         user=os.getenv("DB_USER", "root"),
         password=os.getenv("DB_PASSWORD", ""),
+        use_pure=True,  # evita uma falha da parte nativa da biblioteca em algumas máquinas virtuais
     )
     cursor = conn.cursor()
     with open("schema.sql", encoding="utf-8") as f:
