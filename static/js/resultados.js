@@ -81,7 +81,10 @@ fetch("/api/resultados")
       }),
     ];
 
-    iniciarSlides(conteudo, () => graficos.forEach((g) => g.resize()));
+    const slides = iniciarSlides(conteudo, () => graficos.forEach((g) => g.resize()));
+    const irParaLinks = () => { if (location.hash === "#links-importantes") slides.ir(Infinity); };
+    irParaLinks();
+    window.addEventListener("hashchange", irParaLinks);
   })
   .catch(() => {
     document.getElementById("vazio").hidden = false;

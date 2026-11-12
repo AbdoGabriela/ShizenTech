@@ -17,7 +17,10 @@
       <img src="{{ url_for('static', filename='img/logo.png') }}" alt="" height="40">
       Shizen Tech
     </a>
-    <a href="{{ url_for('resultados') }}">Jardim de todos</a>
+    <div class="nav-links">
+      <a href="{{ url_for('resultados') }}">Jardim de todos</a>
+      <a href="{{ url_for('resultados') }}#links-importantes">Links importantes</a>
+    </div>
   </nav>
   <main>{% block conteudo %}{% endblock %}</main>
   <audio id="musica" src="{{ url_for('static', filename='audio/musica.mp3') }}" loop preload="auto"></audio>

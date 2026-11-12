@@ -80,13 +80,22 @@
         <button type="button" class="botao" data-next>Continuar</button>
       </div>
     </section>
-    <section class="slide">
+    <section class="slide" id="links-importantes">
       <h2>Links importantes</h2>
-      <ul class="links">
-        <!-- Para adicionar um link, copie a linha de exemplo abaixo, tire os sinais de comentário e troque o endereço e o nome.
-        <li><a href="https://endereco-do-link.com" target="_blank" rel="noopener">Nome do link</a></li>
-        -->
-        <li class="vazio">Em breve, os links importantes ficam aqui.</li>
+      <ul class="links com-qr">
+        <!-- Para adicionar um link, copie um bloco <li> abaixo, troque o endereço, o nome e a imagem do QR Code (static/img). -->
+        <li>
+          <img class="qr" src="{{ url_for('static', filename='img/qrcode-shizen-tech-docs.png') }}" alt="QR Code para a pasta Shizen Tech Docs" width="150" height="150">
+          <a href="https://drive.google.com/drive/folders/1XhHwcyNv1p9l8fKhEcbjTWeTQvccCVq-" target="_blank" rel="noopener">Shizen Tech Docs</a>
+        </li>
+        <li>
+          <img class="qr" src="{{ url_for('static', filename='img/qrcode-pitch.png') }}" alt="QR Code para o vídeo Pitch" width="150" height="150">
+          <a href="https://www.youtube.com/watch?v=KZ5rz07IiBE" target="_blank" rel="noopener">Pitch</a>
+        </li>
+        <li>
+          <img class="qr" src="{{ url_for('static', filename='img/qrcode-clinica.png') }}" alt="QR Code para o formulário da Clínica Multidisciplinar UniFECAF" width="150" height="150">
+          <a href="https://forms.gle/qshNzvkvqfKWcy3G7" target="_blank" rel="noopener">Clínica Multidisciplinar UniFECAF</a>
+        </li>
       </ul>
       <div class="botoes">
         <button type="button" class="botao sec" data-prev>Voltar</button>

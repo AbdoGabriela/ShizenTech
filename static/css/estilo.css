@@ -15,6 +15,7 @@ nav { display:flex; justify-content:space-between; align-items:center; gap:1rem;
   border-bottom:1px solid rgba(143,214,180,.15); }
 .marca { display:flex; align-items:center; gap:.6rem; text-decoration:none; color:var(--nevoa);
   font:500 1.3rem "Cormorant Garamond", serif; }
+.nav-links { display:flex; gap:1.4rem; flex-wrap:wrap; justify-content:flex-end; }
 .marca img { height:40px; width:auto; }
 
 main { flex:1; display:flex; align-items:center; justify-content:center; padding:1rem; }
@@ -161,6 +162,11 @@ html:not(.js) .slide + .slide { margin-top:2rem; padding-top:2rem; border-top:1p
 .links a { display:block; padding:.6rem 1.4rem; border:1px solid rgba(143,214,180,.4); border-radius:999px; text-decoration:none; color:var(--nevoa); background:rgba(232,239,233,.06); }
 .links a:hover { background:rgba(143,214,180,.2); }
 .links .vazio { opacity:.7; font-size:.95rem; }
+.links.com-qr { flex-direction:row; flex-wrap:nowrap; justify-content:center; align-items:flex-start; gap:1rem; max-width:none; }
+.links.com-qr li { display:flex; flex-direction:column; align-items:center; gap:.5rem; flex:1 1 0; min-width:0; max-width:11rem; }
+.links.com-qr a { width:100%; box-sizing:border-box; text-align:center; font-size:.8rem; line-height:1.25; border-radius:1rem; padding:.45rem .6rem; }
+.qr { display:block; background:#fff; padding:.4rem; border-radius:.6rem; width:100%; max-width:8.5rem; aspect-ratio:1; height:auto; image-rendering:pixelated; }
+@media (max-width:480px) { .links.com-qr { flex-wrap:wrap; } .links.com-qr li { flex:0 0 11rem; } }
 @media (max-height:600px) { .final-bonsai { height:min(40dvh, 16rem); } }
 .na-final { width:min(64rem, 100%); }
 .painel > .slide.final { margin-block:0; flex:1; }
