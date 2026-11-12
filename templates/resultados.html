@@ -85,6 +85,10 @@
       <ul class="links com-qr">
         <!-- Para adicionar um link, copie um bloco <li> abaixo, troque o endereço, o nome e a imagem do QR Code (static/img). -->
         <li>
+          <img class="qr" src="{{ url_for('static', filename='img/qrcode-github.png') }}" alt="QR Code para o repositório da Shizen Tech no GitHub" width="150" height="150">
+          <a href="https://github.com/AbdoGabriela/ShizenTech" target="_blank" rel="noopener">GitHub</a>
+        </li>
+        <li>
           <img class="qr" src="{{ url_for('static', filename='img/qrcode-shizen-tech-docs.png') }}" alt="QR Code para a pasta Shizen Tech Docs" width="150" height="150">
           <a href="https://drive.google.com/drive/folders/1XhHwcyNv1p9l8fKhEcbjTWeTQvccCVq-" target="_blank" rel="noopener">Shizen Tech Docs</a>
         </li>
@@ -96,7 +100,7 @@
           <img class="qr" src="{{ url_for('static', filename='img/qrcode-clinica.png') }}" alt="QR Code para o formulário da Clínica Multidisciplinar UniFECAF" width="150" height="150">
           <a href="https://forms.gle/qshNzvkvqfKWcy3G7" target="_blank" rel="noopener">Clínica Multidisciplinar UniFECAF</a>
         </li>
-      </ul>
+</ul>
       <div class="botoes">
         <button type="button" class="botao sec" data-prev>Voltar</button>
         <a class="botao" href="{{ url_for('index') }}">Recomeçar Jornada</a>
