@@ -120,7 +120,8 @@ html:not(.js) .slide + .slide { margin-top:2rem; padding-top:2rem; border-top:1p
 .jardim-dica b { display:block; font:700 1.1rem/1.2 "Cormorant Garamond", Georgia, serif; color:var(--menta); margin-bottom:.15rem; }
 .jardim.na-sala .jardim-legenda, .jardim.na-sala #j-recomecar, .jardim.na-sala #j-aleatorias, .jardim.na-sala #j-puxar { display:none; }
 .jardim-modal { position:fixed; inset:0; z-index:30; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:1rem; padding:1rem; background:rgba(4,10,7,.92); }
-.jardim-modal img { max-width:min(34rem, 100%); max-height:calc(100dvh - 7rem); border-radius:12px; }
+.jardim-modal img { max-width:min(34rem, 100%); max-height:calc(100dvh - 13rem); border-radius:12px; }
+.jardim-modal-frase { max-width:min(34rem, 100%); margin:0; text-align:center; color:#f6fff9; font:italic 500 clamp(1.05rem, 2.2vw, 1.3rem)/1.4 "Cormorant Garamond", Georgia, serif; text-shadow:0 2px 8px rgba(0,0,0,.9); }
 .jardim-legenda { display:flex; flex-wrap:wrap; justify-content:center; gap:.2rem 1.4rem; font-size:.9rem; }
 .jardim-legenda span::before { content:""; display:inline-block; width:.7rem; height:.7rem; margin-right:.45rem; background:var(--c); }
 .jardim-info { font-size:.85rem; opacity:.8; min-height:1.3em; }
