@@ -31,8 +31,7 @@ formZerar.addEventListener("submit", (e) => {
         return;
       }
       fecharZerar();
-      document.getElementById("conteudo").hidden = true;
-      document.getElementById("vazio").hidden = false;
+      carregar();
     })
     .catch(() => {
       erroZerar.textContent = "Não foi possível falar com o servidor.";
@@ -40,13 +39,25 @@ formZerar.addEventListener("submit", (e) => {
     });
 });
 
-fetch("/api/resultados")
-  .then((r) => r.json())
-  .then((d) => {
-    if (!d.total) {
-      document.getElementById("vazio").hidden = false;
-      return;
-    }
+// Sem respostas (ou sem banco), as páginas continuam abertas: só os números ficam zerados.
+const SEM_RESPOSTAS = {
+  total: 0, media_total: "–", titulo: "Ainda não há respostas",
+  mensagem: "Comece pelo seu termômetro. Enquanto isso, o jardim e os links já estão abertos.",
+  contagem: [0, 0, 0], rotulos: [], medias: [],
+};
+let graficosAtuais = [];
+let slidesIniciados = false;
+
+function carregar() {
+  fetch("/api/resultados")
+    .then((r) => r.json())
+    .then((d) => mostrar(d && d.total ? d : SEM_RESPOSTAS))
+    .catch(() => mostrar(SEM_RESPOSTAS));
+}
+
+function mostrar(d) {
+    if (slidesIniciados) { location.reload(); return; }
+    document.getElementById("vazio").hidden = true;
     const conteudo = document.getElementById("conteudo");
     conteudo.hidden = false;
     document.getElementById("media").textContent = d.media_total;
@@ -81,11 +92,12 @@ fetch("/api/resultados")
       }),
     ];
 
+    graficosAtuais = graficos;
+    slidesIniciados = true;
     const slides = iniciarSlides(conteudo, () => graficos.forEach((g) => g.resize()));
     const irParaLinks = () => { if (location.hash === "#links-importantes") slides.ir(Infinity); };
     irParaLinks();
     window.addEventListener("hashchange", irParaLinks);
-  })
-  .catch(() => {
-    document.getElementById("vazio").hidden = false;
-  });
+}
+
+carregar();
