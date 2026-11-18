@@ -40,7 +40,7 @@ if exist ".env" (
 ) else (
     copy ".env.example" ".env" >nul
     echo Criei o .env. Vai abrir o Bloco de Notas: coloque a senha do MySQL em DB_PASSWORD
-    echo e a senha de administrador em ADMIN_SENHA. Salve (Ctrl + S) e feche o Bloco de Notas.
+    echo e a senha de administrador em ADMIN_SENHA. Salve Ctrl + S e feche o Bloco de Notas.
     notepad ".env"
 )
 
