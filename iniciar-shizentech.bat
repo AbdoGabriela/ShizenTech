@@ -1,5 +1,5 @@
 @echo off
 title Shizen Tech - Servidor
 cd /d "%~dp0"
-python app.py
+".venv\Scripts\python.exe" app.py
 pause
